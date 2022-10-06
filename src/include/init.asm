@@ -1,4 +1,17 @@
 ; ------------------------------------------------------------------------------
+;
+; Copyright 2022 Nameless Algorithm
+; See https://namelessalgorithm.com/ for more information.
+;
+; LICENSE
+; You may use this source code for any purpose. If you do so, please attribute
+; 'Nameless Algorithm' in your source, or mention us in your game/demo credits.
+; Thank you.
+;
+; ------------------------------------------------------------------------------
+
+
+; ------------------------------------------------------------------------------
 ; USAGE
 ; ------------------------------------------------------------------------------
 ;
