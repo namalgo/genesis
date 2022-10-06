@@ -1,5 +1,5 @@
 # What is This?
-Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorithm.com](https://namelessalgorithm.com).
+Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorithm.com](https://namelessalgorithm.com/genesis/).
 
 # Examples
 **Very Minimal**: Minimal Sega Genesis ROM.
