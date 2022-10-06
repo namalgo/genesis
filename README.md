@@ -2,7 +2,7 @@
 Sega Genesis/MegaDrive assembly code examples from articles on https://namelessalgorithm.com .
 
 # Examples
-'''Very Minimal'''
+**Very Minimal**
 
 Minimal Sega Genesis ROM.
 
@@ -12,7 +12,7 @@ Minimal Sega Genesis ROM.
 
 [Source code](src/very_minimal/very_minimal.asm) | [ROM](roms/very_minimal.gen)
 
-'''Hello'''
+**Hello**
 
 Hello world text demo.
 
