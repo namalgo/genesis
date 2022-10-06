@@ -1,5 +1,5 @@
 # What is This?
-Sega Genesis/MegaDrive assembly code examples, from articles on https://namelessalgorithm.com
+Sega Genesis/MegaDrive assembly code examples from articles on https://namelessalgorithm.com .
 # Copyright and License
 All source code in this repository has the following copyright:
 ```
