@@ -3,22 +3,19 @@ Sega Genesis/MegaDrive assembly code examples from articles on https://namelessa
 
 # Examples
 ## Very Minimal
-Minimal example of Sega Genesis ROM.
+Minimal example of Sega Genesis ROM, based on [article 'SEGA Genesis: Building a ROM'](https://namelessalgorithm.com/genesis/blog/genesis/)
 
 ![Very Minimal Screenshot](screenshots/very_minimal.png)
 
 [Source code](src/very_minimal/very_minimal.asm)
 
-[Article](https://namelessalgorithm.com/genesis/blog/genesis/)
 
 ## Hello
-Hello world text demo ROM.
+Hello world text demo ROM, based on [article 'Printing Text'](https://namelessalgorithm.com/genesis/blog/text/).
 
 ![Hello Screenshot](screenshots/hello.png)
 
 [Source code](src/hello_world/hello.asm)
-
-[Article](https://namelessalgorithm.com/genesis/blog/text/)
 
 # Copyright and License
 All source code in this repository has the following copyright:
