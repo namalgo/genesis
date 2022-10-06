@@ -11,7 +11,7 @@ Minimal example of Sega Genesis ROM, based on [article 'SEGA Genesis: Building a
 
 
 ## Hello
-Hello world text demo ROM, based on [article 'Printing Text'](https://namelessalgorithm.com/genesis/blog/text/).
+Hello world text demo ROM, based on [article 'SEGA Genesis: Printing Text'](https://namelessalgorithm.com/genesis/blog/text/).
 
 ![Hello Screenshot](screenshots/hello.png)
 
