@@ -7,7 +7,7 @@ Minimal example of Sega Genesis ROM.
 
 ![Very Minimal Screenshot](screenshots/very_minimal.png)
 
-[source](src/very_minimal/very_minimal.asm)
+[Source code](src/very_minimal/very_minimal.asm)
 
 [Article](https://namelessalgorithm.com/genesis/blog/genesis/)
 
@@ -16,7 +16,7 @@ Hello world text demo ROM.
 
 ![Hello Screenshot](screenshots/hello.png)
 
-[source](src/hello/hello.asm)
+[Source code](src/hello_world/hello.asm)
 
 [Article](https://namelessalgorithm.com/genesis/blog/text/)
 
