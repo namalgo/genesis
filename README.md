@@ -1,7 +1,7 @@
 # Copyrights and License
 All source code has the following copyright:
 > Copyright 2022 Nameless Algorithm
-> See http://namelessalgorithm.com/ for more information.
+> See https://namelessalgorithm.com/ for more information.
 
 And the following license:
 > You may use this source code for any purpose.
@@ -17,5 +17,5 @@ In no particular order:
 - Alexey Melnikov/sorgelig for the MiSTer
 - Gregory Estrade for the fpgagen Sega Genesis/MegaDrive FPGA core
 - Mednafen Team for a great emulator
-- Sonic Retro/Sega Retro Team for segaretro.org and https://github.com/sonicretro/s1disasm
+- Sonic Retro/Sega Retro Team for segaretro.org and the Sonic disassembly (s1disasm)
 - Dr. Volker Barthelmann for vasm
