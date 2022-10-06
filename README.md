@@ -3,7 +3,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on https://namelessa
 
 # Examples
 ## Very Minimal
-Minimal example of Sega Genesis ROM, based on [article 'SEGA Genesis: Building a ROM'](https://namelessalgorithm.com/genesis/blog/genesis/)
+Minimal example of Sega Genesis ROM, based on [article 'SEGA Genesis: Building a ROM'](https://namelessalgorithm.com/genesis/blog/genesis/).
 
 ![Very Minimal Screenshot](screenshots/very_minimal.png)
 
