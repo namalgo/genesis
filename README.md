@@ -7,7 +7,7 @@ Minimal example of Sega Genesis ROM, based on [article 'SEGA Genesis: Building a
 
 ![Very Minimal Screenshot](screenshots/very_minimal.png)
 
-[Source code](src/very_minimal/very_minimal.asm)
+[Source code](src/very_minimal/very_minimal.asm) | [ROM](roms/very_minimal.gen)
 
 
 ## Hello
@@ -15,7 +15,7 @@ Hello world text demo ROM, based on [article 'SEGA Genesis: Printing Text'](http
 
 ![Hello Screenshot](screenshots/hello.png)
 
-[Source code](src/hello_world/hello.asm)
+[Source code](src/hello_world/hello.asm) | [ROM](roms/hello.gen)
 
 # Copyright and License
 All source code in this repository has the following copyright:
