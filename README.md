@@ -2,7 +2,7 @@
 Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorithm.com](https://namelessalgorithm.com/genesis/).
 
 # Prerequisites
-1. Build MC68000 and Z80 vasm assembler as explained on [namelessalgorithm.com](https://namelessalgorithm.com/genesis/blog/genesis/) and put them in [bin/](bin/)
+1. Compile VASM assembler for MC68000 and Z80 as explained on [namelessalgorithm.com](https://namelessalgorithm.com/genesis/blog/genesis/) and put the two `.exe`s in [bin/](bin/).
 2. Open example dir and run `assemble.bat`.
 3. Load ROM from [roms/](roms/) in your favourite emulator.
 
