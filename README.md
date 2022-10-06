@@ -8,9 +8,9 @@ See https://namelessalgorithm.com/ for more information.
 ```
 And the following license:
 ```
-You may use this source code for any purpose. If you do so, please
-attribute 'Nameless Algorithm' in your source code, or mention us
-in your game/demo credits.
+You may use this source code for any purpose. If you do so, please attribute
+'Nameless Algorithm' in your source, or mention us in your game/demo credits.
+Thank you.
 ```
 # Thanks
 In no particular order:
