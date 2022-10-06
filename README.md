@@ -7,14 +7,14 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
 
 ![Very Minimal Screenshot](screenshots/very_minimal.png)
 
-[Source code](src/very_minimal/very_minimal.asm) | [ROM](roms/very_minimal.gen)
+[Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/very_minimal.gen?raw=true)
 
 **Hello**: Hello world text demo.
 [Article: 'SEGA Genesis: Printing Text'](https://namelessalgorithm.com/genesis/blog/text/).
 
 ![Hello Screenshot](screenshots/hello.png)
 
-[Source code](src/hello_world/hello.asm) | [ROM](roms/hello.gen)
+[Source code](src/hello_world/hello.asm) | [Download ROM](roms/hello.gen?raw=true)
 
 # Copyright and License
 All source code in this repository has the following copyright:
