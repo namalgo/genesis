@@ -14,6 +14,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
 4. The MAME Debug example requires Ruby.
 
 # Examples
+## Very Minimal
 - **Very Minimal**: Minimal Sega Genesis ROM.
   [Article: 'SEGA Genesis: Building a ROM'](https://namelessalgorithm.com/genesis/blog/genesis/)
   
@@ -22,6 +23,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   
   [Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/very_minimal.gen?raw=true)
 
+## MAME Debug
 - **MAME Debug**: MAME Debug example.
   [Article: 'SEGA Genesis: Debugging'](https://namelessalgorithm.com/genesis/blog/debug/).
   
