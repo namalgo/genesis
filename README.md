@@ -21,24 +21,22 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   
   [Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/very_minimal.gen?raw=true)
 
-## MAME Debug
-<br style='clear:both' />
 - **MAME Debug**: MAME Debug example.
-  [Article: 'SEGA Genesis: Debugging'](https://namelessalgorithm.com/genesis/blog/debug/).
+  [Article: 'SEGA Genesis: Debugging'](https://namelessalgorithm.com/genesis/blog/debug/)
   
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/mame-symbols.png" width="400px" >
 
   [MAME label Ruby script](scripts/mamelabels-vasm.rb)
 
 - **Hello**: Hello world text demo.
-  [Article: 'SEGA Genesis: Printing Text'](https://namelessalgorithm.com/genesis/blog/text/).
+  [Article: 'SEGA Genesis: Printing Text'](https://namelessalgorithm.com/genesis/blog/text/)
   
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/hello.png" width="400px" >
   
   [Source code](src/hello_world/hello.asm) | [Download ROM](roms/hello.gen?raw=true)
 
 - **Framebuffer**: Framebuffer rendering.
-  [Article: 'SEGA Genesis: Framebuffer Rendering'](https://namelessalgorithm.com/genesis/blog/framebuf/).
+  [Article: 'SEGA Genesis: Framebuffer Rendering'](https://namelessalgorithm.com/genesis/blog/framebuf/)
  
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/framebuf.png" width="400px" >
   
