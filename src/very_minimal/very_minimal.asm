@@ -11,10 +11,6 @@
 ; ------------------------------------------------------------------------------
 
 
-
-; Very minimal SEGA Genesis ROM by the Nameless Algorithm 2022-08-04
-; - http://namelessalgorithm.com/
-;
 ; ROM HEADER
 ; ------------------------------------------------------------------------------
 rom_header:
