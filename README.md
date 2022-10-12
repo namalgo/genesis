@@ -24,6 +24,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   [Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/very_minimal.gen?raw=true)
 
 ## MAME Debug
+<br style='clear:both' />
 - **MAME Debug**: MAME Debug example.
   [Article: 'SEGA Genesis: Debugging'](https://namelessalgorithm.com/genesis/blog/debug/).
   
