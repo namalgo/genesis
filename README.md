@@ -27,7 +27,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   
   ![Hello Screenshot](screenshots/mame-symbols.png)
   
-  [Source code](scripts/mamelabels-vasm.rb)
+  [MAME label Ruby script](scripts/mamelabels-vasm.rb)
 
 # Copyright and License
 All source code in this repository has the following copyright:
