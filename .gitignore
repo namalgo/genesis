@@ -1,4 +1,9 @@
 bin/*.exe
 bin/mame/*.exe
+bin/mame/cfg/
+bin/mame/comments/
+bin/mame/nvram/
 cfg/*.cfg
 **/z80.bin
+src/debug/mamelabels
+src/debug/rom.lst

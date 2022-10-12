@@ -10,4 +10,4 @@ call assemble.bat
 ruby %ROOT_DIR%\scripts\mamelabels-vasm.rb > mamelabels
 
 cd %ROOT_DIR%\bin\mame
-mame64 genesis %MAME_OPTS% -cart roms\%OUTPUT_ROM%.gen
+mame64 genesis %MAME_OPTS% -cart ..\..\roms\%OUTPUT_ROM%.gen
