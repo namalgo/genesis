@@ -17,7 +17,6 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
 - **Very Minimal**: Minimal Sega Genesis ROM.
   [Article: 'SEGA Genesis: Building a ROM'](https://namelessalgorithm.com/genesis/blog/genesis/)
   
-  ![Very Minimal Screenshot](screenshots/very_minimal.png | width=300)
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/very_minimal.png" width="400px" >
   
   [Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/very_minimal.gen?raw=true)
@@ -27,21 +26,21 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
 - **MAME Debug**: MAME Debug example.
   [Article: 'SEGA Genesis: Debugging'](https://namelessalgorithm.com/genesis/blog/debug/).
   
-  ![Hello Screenshot](screenshots/mame-symbols.png | width=300)
-  
+  <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/mame-symbols.png" width="400px" >
+
   [MAME label Ruby script](scripts/mamelabels-vasm.rb)
 
 - **Hello**: Hello world text demo.
   [Article: 'SEGA Genesis: Printing Text'](https://namelessalgorithm.com/genesis/blog/text/).
   
-  ![Hello Screenshot](screenshots/hello.png | width=300)
+  <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/hello.png" width="400px" >
   
   [Source code](src/hello_world/hello.asm) | [Download ROM](roms/hello.gen?raw=true)
 
 - **Framebuffer**: Framebuffer rendering.
   [Article: 'SEGA Genesis: Framebuffer Rendering'](https://namelessalgorithm.com/genesis/blog/framebuf/).
-  
-  ![Framebuffer demo screenshot](screenshots/framebuf.png | width=300)
+ 
+  <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/framebuf.png" width="400px" >
   
   [Source code](src/framebuf/demo.asm) | [Download ROM](roms/framebuf.gen?raw=true)
 
