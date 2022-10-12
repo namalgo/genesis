@@ -1,2 +1,4 @@
 bin/*.exe
+bin/mame/*.exe
+cfg/*.cfg
 **/z80.bin

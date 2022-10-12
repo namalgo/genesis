@@ -22,6 +22,13 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   
   [Source code](src/hello_world/hello.asm) | [Download ROM](roms/hello.gen?raw=true)
 
+- **MAME Debug**: MAME Debug example.
+  [Article: 'SEGA Genesis: Debugging'](https://namelessalgorithm.com/genesis/blog/debug/).
+  
+  ![Hello Screenshot](screenshots/mame-symbols.png)
+  
+  [Source code](scripts/mamelabels-vasm.rb)
+
 # Copyright and License
 All source code in this repository has the following copyright:
 ```
@@ -34,6 +41,7 @@ You may use this source code for any purpose. If you do so, please attribute
 'Nameless Algorithm' in your source, or mention us in your game/demo credits.
 Thank you.
 ```
+
 # Thanks
 In no particular order:
 - Matt Phillips for the BigEvilCorporation tutorials
