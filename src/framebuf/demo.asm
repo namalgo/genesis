@@ -189,28 +189,26 @@ entry_point
 
 
 
-    move.l  #$11111111,d1     ; pattern
+    move.l  #$11111111,d0     ; pattern
+
 mainloop
-    lea     $E00800,a0
+
+render_buf                    ; Draw a pattern
+    lea     $E00800,a0        ; Offset below the text
 
     move.w  #$10-1,d6
 .render_loop1
     move.w  #$180-1,d7
+
 .render_loop2
-
-    move.l  d1,(a0)+          ; write number to framebuf
-
+    add.l   d0,(a0)+          ; Read framebuffer pixels and update
     dbra    d7,.render_loop2
 
-    cmp.l   #$FFFFFFFF,d1
-    bne     .skip
-    move.l  #0,d1
-.skip
-    add.l   #$11111111,d1
-
+    add.l   #$11223344,d0
     dbra    d6,.render_loop1
 
     
+output_buf
     ; copy_framebuf( framebuf_addr (A0.L), VRAM_char_memory (D0.w) )
     lea     $E00000,a0        ; a0 : Framebuf RAM ptr
     move.w  #$0000,d0         ; VRAM write to address $0000
