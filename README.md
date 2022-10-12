@@ -11,6 +11,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
 
 2. Open example dir and run `assemble.bat`.
 3. Load ROM from [roms/](roms/) in your favourite emulator.
+4. The MAME Debug example requires Ruby.
 
 # Examples
 - **Very Minimal**: Minimal Sega Genesis ROM.
