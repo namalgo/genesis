@@ -18,7 +18,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   [Article: 'SEGA Genesis: Building a ROM'](https://namelessalgorithm.com/genesis/blog/genesis/)
   
   ![Very Minimal Screenshot](screenshots/very_minimal.png | width=300)
-  <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/very_minimal.png" align="left" width="400px" >
+  <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/very_minimal.png" align="right" width="400px" >
   
   [Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/very_minimal.gen?raw=true)
 
