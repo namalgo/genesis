@@ -19,7 +19,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/very_minimal.png" width="400px" >
   
-  [Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/very_minimal.gen?raw=true)
+  [Source code](src/very_minimal/very_minimal.asm) | [Download ROM](roms/namalgo-very_minimal.gen?raw=true)
 
 - **MAME Debug**: MAME Debug example.
   [Article: 'SEGA Genesis: Debugging'](https://namelessalgorithm.com/genesis/blog/debug/)
@@ -33,14 +33,14 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/hello.png" width="400px" >
   
-  [Source code](src/hello_world/hello.asm) | [Download ROM](roms/hello.gen?raw=true)
+  [Source code](src/hello_world/hello.asm) | [Download ROM](roms/namalgo-hello.gen?raw=true)
 
 - **Framebuffer**: Framebuffer rendering.
   [Article: 'SEGA Genesis: Framebuffer Rendering'](https://namelessalgorithm.com/genesis/blog/framebuf/)
  
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/framebuf.png" width="400px" >
   
-  [Source code](src/framebuf/demo.asm) | [Download ROM](roms/framebuf.gen?raw=true)
+  [Source code](src/framebuf/demo.asm) | [Download ROM](roms/namalgo-framebuf.gen?raw=true)
 
 # Copyright and License
 All source code in this repository has the following copyright:
