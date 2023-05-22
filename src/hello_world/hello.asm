@@ -82,8 +82,8 @@ rom_header:
     
     dc.b "SEGA GENESIS    " ; Console name
     dc.b "(C) NAMELESS    " ; Copyrght holder and release date
-    dc.b "SCROLLY BY NAMELESS ALGORITHM                     " ; Domest. name
-    dc.b "SCROLLY BY NAMELESS ALGORITHM                     " ; Intern. name
+    dc.b "SCROLLY BY NAMELESS ALGORITHM                   " ; Domest. name
+    dc.b "SCROLLY BY NAMELESS ALGORITHM                   " ; Intern. name
     dc.b "2022-07-18    "   ; Version number
     dc.w $0000              ; Checksum
     dc.b "J               " ; I/O support
@@ -171,7 +171,7 @@ __main
 
     
     move.w  #0,d0
-    move.w  #$8F00,VDP_CONTROL     ; VDP autoincrement
+    move.w  #$8F00,VDP_CONTROL     ; VDP autoincrement = 0
     move.l  #$C0000003,VDP_CONTROL ; Set up VDP to write to CRAM address $0000
 loop
     move.w  d0,VDP_DATA        ; black (BGR)

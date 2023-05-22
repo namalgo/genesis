@@ -85,8 +85,8 @@ rom_header:
     
     dc.b "SEGA GENESIS    " ; Console name
     dc.b "(C) NAMELESS    " ; Copyright holder and release date
-    dc.b "VERY MINIMAL GENESIS CODE BY NAMELESS ALGORITHM   " ; Domest. name
-    dc.b "VERY MINIMAL GENESIS CODE BY NAMELESS ALGORITHM   " ; Intern. name
+    dc.b "VERY MINIMAL GENESIS CODE BY NAMELESS ALGORITHM " ; Domest. name (48B)
+    dc.b "VERY MINIMAL GENESIS CODE BY NAMELESS ALGORITHM " ; Intern. name (48B)
     dc.b "2022-08-04    "   ; Version number
     dc.w $0000              ; Checksum
     dc.b "J               " ; I/O support
@@ -164,7 +164,7 @@ copy_vdp
 ; ------------------------------------------------------------------------------
 main
     move.w  #0,d0
-    move.w  #$8F00,vdp_control     ; Set VDP autoincrement to 2 words/write
+    move.w  #$8F00,vdp_control     ; Set VDP autoincrement to 0 bytes/write
     move.l  #$C0000003,vdp_control ; Set up VDP to write to CRAM address $0000
 loop
     move.w  d0,vdp_data        ; black (BGR)

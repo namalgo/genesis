@@ -82,8 +82,8 @@ rom_header:
     
     dc.b "SEGA GENESIS    " ; Console name
     dc.b "(C) NAMELESS    " ; Copyright holder and release date
-    dc.b "FRAMEBUF DEMO BY NAMELESS ALGORITHM               " ; Domest. name
-    dc.b "FRAMEBUF DEMO BY NAMELESS ALGORITHM               " ; Intern. name
+    dc.b "FRAMEBUF DEMO BY NAMELESS ALGORITHM             " ; Domest. name
+    dc.b "FRAMEBUF DEMO BY NAMELESS ALGORITHM             " ; Intern. name
     dc.b "2022-10-12    "   ; Version number
     dc.w $0000              ; Checksum
     dc.b "J               " ; I/O support
