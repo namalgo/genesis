@@ -120,7 +120,7 @@ conf_offset     = $E0FF18
 
 ; init.asm config
 INIT_VRAM_PLANE_A = $E000
-INIT_VRAM_PLANE_B = $E000
+INIT_VRAM_PLANE_B = $F000
 INIT_VRAM_WINDOW = $A000
 VDP_VRAM_SPRITES = $8000
 
@@ -205,8 +205,7 @@ entry_point
 mainloop
 
 render_buf                    ; Draw a pattern
-    ; lea     $E00800,a0        ; Offset below the text
-    lea     $E01800,a0        ; Offset below the text
+    lea     $E00800,a0        ; Offset below the text
 
     move.w  #$10-1,d6
 .render_loop1
@@ -222,7 +221,7 @@ render_buf                    ; Draw a pattern
     
 output_buf
     ; copy_framebuf( framebuf_addr (A0.L), VRAM_char_memory (D0.w) )
-    lea     $E01800,a0        ; a0 : Framebuf RAM ptr
+    lea     $E00000,a0        ; a0 : Framebuf RAM ptr
     move.w  #$0000,d0         ; VRAM write to address $0000
     jsr     copy_framebuf     ; copy RAM framebuffer to VRAM
 

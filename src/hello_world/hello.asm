@@ -136,7 +136,8 @@ EntryPoint:               ; Entry point address set in ROM header
     ; clear_vram_all()
     jsr     clear_vram_all
 
-    M_VDP_SETREG VDP_MODE_4,%00000000 ; H32 mode
+    M_VDP_SETREG VDP_MODE_4,%00000000     ; H32 mode
+    M_VDP_SETREG VDP_PLANE_SIZE,%00000000 ; 32x32
 
     ; load_palette( palette_data (a0.l), palette_idx (D0.w) [0-3] )
     lea     palette,a0
