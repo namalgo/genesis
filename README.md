@@ -4,8 +4,10 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
 # Prerequisites
 1. Download these binaries:
 
+```
      vasmm68k_mot_Win64.zip
      vasmz80_std_Win64.zip
+```
 
    from [sun.hasenbraten.de](http://sun.hasenbraten.de/vasm/index.php?view=binrel)
 
@@ -49,7 +51,7 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
  
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/mandelbrot.png" width="400px" >
   
-  [Source code](src/mandelbrot/demo.asm) | [Download ROM](roms/namalgo-mandelbrot.gen?raw=true)
+  [Source code](src/mandelbrot/) | [Download ROM](roms/namalgo-mandelbrot.gen?raw=true)
 
 # Copyright and License
 All source code in this repository has the following copyright:
