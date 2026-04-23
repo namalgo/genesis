@@ -1,0 +1,3 @@
+loop:
+    nop
+    jp loop

@@ -1,5 +1,10 @@
 ; ------------------------------------------------------------------------------
+; vdpmacros.asm
 ;
+; CHANGELOG
+; 0.1 First version
+;
+; COPYRIGHT
 ; Copyright 2022 Nameless Algorithm
 ; See https://namelessalgorithm.com/ for more information.
 ;
@@ -8,6 +13,8 @@
 ; 'Nameless Algorithm' in your source, or mention us in your game/demo credits.
 ; Thank you.
 ;
+; USAGE
+;     M_VDP_SETREG VDP_AUTOINC,2   ; set auto-increment = 2
 ; ------------------------------------------------------------------------------
 
 
@@ -33,6 +40,7 @@ VDP_PLANE_B         = $04
 VDP_AUTOINC         = $0F
 VDP_HORIZ_INT_COUNT = $0A
 VDP_MODE_4          = $0C
+VDP_PLANE_SIZE      = $10
 
 ; VDP command words
 VDP_CMD_VRAM_WRITE = $40000000
@@ -75,6 +83,7 @@ M_VRAM_WRITE macro addr ; \1
 ; fast constant address macro
 ; usage:
 ;   m_setup_cram_write $C000
+; takes 28 CPU cycles
 ; ----------------------------------------------------------------------------
 M_CRAM_WRITE macro addr ; \1
     ; tip: don't insert spaces, VASM doesn't like it
@@ -89,6 +98,7 @@ M_CRAM_WRITE macro addr ; \1
 ; ----------------------------------------------------------------------------
 ; m_set_VDP_CONTROL reg.b, data.b 
 ; fast macro, only for constant values
+; takes 20 CPU cyles
 ; ----------------------------------------------------------------------------
 M_VDP_SETREG macro reg,data ; \1,\2
 ; Bits: [10?R RRRR DDDD DDDD]
@@ -108,13 +118,24 @@ M_VDP_SETREG macro reg,data ; \1,\2
 
 
 
-; Usage: bgcol $00E0 ; (green)
+; Usage: M_BGCOL $00E0 ; (green)
+; Sets color 0 in all 4 palettes
 ; CPU usage: 48 (9/3) cycles
 M_BGCOL macro ; (col)
     ; move.w  #$xxx,(xxx).L 20 (4/1) cycles
     ; move.l  #$xxx,(xxx).L 28 (5/2) cycles
-    move.l  #VDP_CMD_CRAM_WRITE,VDP_CONTROL ; Set up write to color 0
+
+    REPT 4
+.addr        set REPTN*$20
+.command     set VDP_CMD_CRAM_WRITE
+.addr0       set (((.addr)&$3FFF)<<16)
+.addr1       set (((.addr)&$C000)>>14)
+
+    move.l  #(.command|.addr0|.addr1),VDP_CONTROL
     move.w  #\1,VDP_DATA       ; Write color 0 value
+
+    ENDR
+
     endm
 
 

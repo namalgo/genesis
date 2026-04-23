@@ -1,26 +1,31 @@
 ; ------------------------------------------------------------------------------
+; text.asm - print_at-style text rendering and font
 ;
+; CHANGELOG
+; 0.3 2025-02-16 print_at_col ensures correct VDP auto-increment
+; 0.2 2025-02-14 Added full color tiles and font table
+; 0.1 2022       First version
+;
+;
+; COPYRIGHT
 ; Copyright 2022 Nameless Algorithm
 ; See https://namelessalgorithm.com/ for more information.
+;
 ;
 ; LICENSE
 ; You may use this source code for any purpose. If you do so, please attribute
 ; 'Nameless Algorithm' in your source, or mention us in your game/demo credits.
 ; Thank you.
 ;
-; ------------------------------------------------------------------------------
-
-
-
-; ------------------------------------------------------------------------------
+;
 ; USAGE
-; ------------------------------------------------------------------------------
 ;
 ;    include 'text.asm'
 ;
 ; ; text.asm config
-; TEXT_VRAM_ADDR_PRINT = $4000 ; Address of plane to print char indices to
-; TEXT_VRAM_ADDR_FONT  = $0000 ; Where in VRAM is font data loaded?
+; TEXT_HORIZONTAL_CELLS_64 = 1  ; refers to VDP reg. $10
+; TEXT_VRAM_ADDR_PRINT = $4000  ; Address of plane to print char indices to
+; TEXT_VRAM_ADDR_FONT  = $0000  ; Where in VRAM is font data loaded?
 ;
 ; text
 ;    dc.b 'HELLO WORLD',0
@@ -35,6 +40,23 @@
 ;    move.b  #0,d5
 ;    jsr     print_at
 ;
+;
+; FONT TABLE
+;
+;     | 0123 4567 89AB CDEF
+; ----+-----------------------------------------------
+; $00 |  !"# $%&' ()*+ ,-./
+; $10 | 0123 4567 89:; <=>?
+; $20 | @ABC DEFH IJKL MNOP
+; $30 | QRST UVWX YZ[\ ]^_`
+; $40 | pppp ffff bbbb       <- pooka, flower, bullet
+; $50 | 0123 4567 89AB CDEF  <- full colored tiles
+;
+; Each character is 8 pixels tall, 8 pixels wide, 4 bits / pixel
+; Size: 8 * 8 * 4 bits = 256 bits = 32 B
+;
+; ------------------------------------------------------------------------------
+
 
     ifnd NAMALGO_TEXT
 NAMALGO_TEXT = 1
@@ -80,11 +102,11 @@ load_font:
 
 
 ; ----------------------------------------------------------------------------
-; print_at( x (D1), y (D2), str (A0), strlen (D0) )
+; print_at( x (D1), y (D2), str (A0), strlen (D0), palette (D5.b) [0-3] )
 ; ----------------------------------------------------------------------------
 print_at:
     movem.l  d5,-(sp)
-    move.w   #0,d5
+    ;move.w   #0,d5
     jsr      print_at_col
     movem.l  (sp)+,d5
     rts
@@ -92,6 +114,53 @@ print_at:
 
 
 
+; ----------------------------------------------------------------------------
+; set_char( x (D1.w), y (D2.w), char_idx (D3.w), palette (D5.w) [0-3] )
+set_char:
+;   d1 : x offset
+;   d2 : y offset
+;   d3 : VRAM address
+;   d4 : VDP command word
+;   d5 : tmp
+    movem.l  d0-d5,-(sp)
+
+    and.w    #%11,d5 ; palette idx
+    lsl.w    #7,d5   ; << 13
+    lsl.w    #6,d5
+
+    move.w   #(TEXT_VRAM_ADDR_FONT>>5),d4   ; 
+    or.w     d5,d4   ; Palette idx
+
+.skip
+    ; d3 = xoff*2 + yoff*128
+    lsl.w   #1,d1
+
+    ; Vertical size y, horizontal size x
+    ; x/y = (0:32 cells, 1:64 cells, 3:128 cells)
+    ifd TEXT_HORIZONTAL_CELLS_64 ; refers to VDP reg. $10
+
+    lsl.w   #7,d2       ; d2 *= 64*2
+
+    else
+
+    lsl.w   #6,d2       ; d2 *= 32*2
+
+    endif
+
+    move.w   #TEXT_VRAM_ADDR_PRINT,d3
+    add.w   d1,d3
+    add.w   d2,d3
+
+; setup_vram_write( addr (D0.w) )
+    move.w  d3,d0
+    jsr     setup_vram_write
+
+    sub.w   #32,d3     ; subtract ASCII value of <space>
+    add.w   d4,d3
+    move.w  d3,VDP_DATA ; write to VDP
+
+    movem.l (sp)+,d0-d5
+    rts
 
 
 ; ----------------------------------------------------------------------------
@@ -146,10 +215,24 @@ print_at_col:
 .skip
     ; d3 = xoff*2 + yoff*128
     lsl.w   #1,d1
-    lsl.w   #6,d2
+
+    ; Vertical size y, horizontal size x
+    ; x/y = (0:32 cells, 1:64 cells, 3:128 cells)
+    ifd TEXT_HORIZONTAL_CELLS_64 ; refers to VDP reg. $10
+
+    lsl.w   #7,d2       ; d2 *= 64*2
+
+    else
+
+    lsl.w   #6,d2       ; d2 *= 32*2
+
+    endif
+
     move.w   #TEXT_VRAM_ADDR_PRINT,d3
     add.w   d1,d3
     add.w   d2,d3
+
+    M_VDP_SETREG VDP_AUTOINC,2
 
 ; setup_vram_write( addr (D0.w) )
     move.w  d3,d0
@@ -232,6 +315,150 @@ hex2str_l
 
     movem.l   (sp)+,d0-d2/a0
     rts
+
+
+; ----------------------------------------------------------------------------
+; dec2str_5digits( str (A0), number (D0.w) )
+; - Output decimal number characters to string
+;
+; Algorithm
+;
+; digit = 0
+; digit2
+;  if number < 100 then goto .done
+;  number -= 100 
+;  digit += 1
+; .done
+;  (*str)++ = digit + '0'
+;
+; digit1
+;  if number < 10 then goto .done
+;  number -= 10
+;  digit += 1
+; .done
+;  (*str)++ = digit + '0'
+;
+; digit0
+;  if number < 1 then goto .done
+;  number -= 1
+;  digit += 1
+; .done
+;  (*str)++ = digit + '0'
+;
+; ----------------------------------------------------------------------------
+dec2str_5digits
+    movem.l   d0-d1/a0,-(sp)
+
+    move.b    #0,d1  ; d1 : digit = 0
+digit4
+    cmp.w     #10000,d0  ; if number < 100 then goto .done
+    blt.w     .done
+    sub.w     #10000,d0  ; number -= 100 
+    add.b     #1,d1    ; d1 : digit += 1
+    jmp       digit4
+.done
+    add.b     #'0',d1
+    move.b    d1,(a0)+ ; (*str)++ = digit + '0'
+
+    move.b    #0,d1  ; d1 : digit = 0
+digit3
+    cmp.w     #1000,d0  ; if number < 100 then goto .done
+    blt.w     .done
+    sub.w     #1000,d0  ; number -= 100 
+    add.b     #1,d1    ; d1 : digit += 1
+    jmp       digit3
+.done
+    add.b     #'0',d1
+    move.b    d1,(a0)+ ; (*str)++ = digit + '0'
+
+    move.b    #0,d1  ; d1 : digit = 0
+digit2
+    cmp.w     #100,d0  ; if number < 100 then goto .done
+    blt.w     .done
+    sub.w     #100,d0  ; number -= 100 
+    add.b     #1,d1    ; d1 : digit += 1
+    jmp       digit2
+.done
+    add.b     #'0',d1
+    move.b    d1,(a0)+ ; (*str)++ = digit + '0'
+
+    move.b    #0,d1  ; d1 : digit = 0
+digit1
+    cmp.w     #10,d0  ; if number < 100 then goto .done
+    blt.w     .done
+    sub.w     #10,d0  ; number -= 100 
+    add.b     #1,d1    ; d1 : digit += 1
+    jmp       digit1
+.done
+    add.b     #'0',d1
+    move.b    d1,(a0)+ ; (*str)++ = digit + '0'
+
+    move.b    #0,d1  ; d1 : digit = 0
+digit0
+    cmp.w     #1,d0  ; if number < 100 then goto .done
+    blt.w     .done
+    sub.w     #1,d0  ; number -= 100 
+    add.b     #1,d1    ; d1 : digit += 1
+    jmp       digit0
+.done
+    add.b     #'0',d1
+    move.b    d1,(a0)+ ; (*str)++ = digit + '0'
+
+    movem.l   (sp)+,d0-d1/a0
+    rts
+
+
+; ----------------------------------------------------------------------------
+; TODO This doesn't work yet, and might be slow
+; dec2str_l( str (A0), number (D0.w), digits (D1.w) )
+; - Output decimal number characters to string
+;
+; Algorithm
+;
+; next_digit
+;  is n == 0 ? done
+;  d = n % 10
+;  output d to string
+;  n = n / 10
+;  jmp next_digit
+;
+; ----------------------------------------------------------------------------
+; dec2str_l
+; 
+;     movem.l   d0-d1/a0,-(sp)
+;     ;move.b    #"0",(a0)+
+;     ;move.b    #"A",(a0)+
+;     ;move.b    #"F",(a0)+
+;     ;move.b    #"0",(a0)+
+;     ;move.b    #"0",(a0)+
+;     ;movem.l   (sp)+,d0-d1/a0
+; 
+;     ;rts
+; 
+;     and.l     #$0000FFFF,d0    ; clear upper world of d0
+;     and.l     #$0000FFFF,d1    ; clear upper word of d1
+;     add.l     d1,a0
+; 
+; .next_digit
+;     tst.w     d0
+;     beq       .done
+; 
+;     divu.w    #10,d0 ; TODO: this instruction is ridiculously slow (140 cycles)
+;     move.w    d0,d1     ; d1 : n % 10
+;     and.w     #%1111,d1
+;     ;add.b     #'0',d1
+;     move.b    #'0',d1
+;     move.b    d1,(a0)
+;     sub.l     #1,a0
+; 
+;     swap      d0             ; n = n/10
+;     and.l     #$0000FFFF,d0
+; 
+;     dbra    d1,.next_digit
+; 
+; .done
+;     movem.l   (sp)+,d0-d1/a0
+;     rts
 
 
 
@@ -977,7 +1204,61 @@ TEXT_FONT_DATA:
    dc.l $03444430
    dc.l $03344330
    dc.l $00033000
-; tile0
+; unused
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+; unused
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+; unused
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+; unused
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+; col0 tile
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+   dc.l $00000000
+; col1 tile
+   dc.l $11111111
+   dc.l $11111111
+   dc.l $11111111
+   dc.l $11111111
+   dc.l $11111111
+   dc.l $11111111
+   dc.l $11111111
+   dc.l $11111111
+; col2 tile
    dc.l $22222222
    dc.l $22222222
    dc.l $22222222
@@ -986,7 +1267,25 @@ TEXT_FONT_DATA:
    dc.l $22222222
    dc.l $22222222
    dc.l $22222222
-; tile1
+; col3 tile
+   dc.l $33333333
+   dc.l $33333333
+   dc.l $33333333
+   dc.l $33333333
+   dc.l $33333333
+   dc.l $33333333
+   dc.l $33333333
+   dc.l $33333333
+; col4 tile
+   dc.l $44444444
+   dc.l $44444444
+   dc.l $44444444
+   dc.l $44444444
+   dc.l $44444444
+   dc.l $44444444
+   dc.l $44444444
+   dc.l $44444444
+; col5 tile
    dc.l $55555555
    dc.l $55555555
    dc.l $55555555
@@ -995,6 +1294,96 @@ TEXT_FONT_DATA:
    dc.l $55555555
    dc.l $55555555
    dc.l $55555555
+; col6 tile
+   dc.l $66666666
+   dc.l $66666666
+   dc.l $66666666
+   dc.l $66666666
+   dc.l $66666666
+   dc.l $66666666
+   dc.l $66666666
+   dc.l $66666666
+; col7 tile
+   dc.l $77777777
+   dc.l $77777777
+   dc.l $77777777
+   dc.l $77777777
+   dc.l $77777777
+   dc.l $77777777
+   dc.l $77777777
+   dc.l $77777777
+; col8 tile
+   dc.l $88888888
+   dc.l $88888888
+   dc.l $88888888
+   dc.l $88888888
+   dc.l $88888888
+   dc.l $88888888
+   dc.l $88888888
+   dc.l $88888888
+; col9 tile
+   dc.l $99999999
+   dc.l $99999999
+   dc.l $99999999
+   dc.l $99999999
+   dc.l $99999999
+   dc.l $99999999
+   dc.l $99999999
+   dc.l $99999999
+; colA tile
+   dc.l $AAAAAAAA
+   dc.l $AAAAAAAA
+   dc.l $AAAAAAAA
+   dc.l $AAAAAAAA
+   dc.l $AAAAAAAA
+   dc.l $AAAAAAAA
+   dc.l $AAAAAAAA
+   dc.l $AAAAAAAA
+; colB tile
+   dc.l $BBBBBBBB
+   dc.l $BBBBBBBB
+   dc.l $BBBBBBBB
+   dc.l $BBBBBBBB
+   dc.l $BBBBBBBB
+   dc.l $BBBBBBBB
+   dc.l $BBBBBBBB
+   dc.l $BBBBBBBB
+; colC tile
+   dc.l $CCCCCCCC
+   dc.l $CCCCCCCC
+   dc.l $CCCCCCCC
+   dc.l $CCCCCCCC
+   dc.l $CCCCCCCC
+   dc.l $CCCCCCCC
+   dc.l $CCCCCCCC
+   dc.l $CCCCCCCC
+; colD tile
+   dc.l $DDDDDDDD
+   dc.l $DDDDDDDD
+   dc.l $DDDDDDDD
+   dc.l $DDDDDDDD
+   dc.l $DDDDDDDD
+   dc.l $DDDDDDDD
+   dc.l $DDDDDDDD
+   dc.l $DDDDDDDD
+; colE tile
+   dc.l $EEEEEEEE
+   dc.l $EEEEEEEE
+   dc.l $EEEEEEEE
+   dc.l $EEEEEEEE
+   dc.l $EEEEEEEE
+   dc.l $EEEEEEEE
+   dc.l $EEEEEEEE
+   dc.l $EEEEEEEE
+; colF tile
+   dc.l $FFFFFFFF
+   dc.l $FFFFFFFF
+   dc.l $FFFFFFFF
+   dc.l $FFFFFFFF
+   dc.l $FFFFFFFF
+   dc.l $FFFFFFFF
+   dc.l $FFFFFFFF
+   dc.l $FFFFFFFF
 TEXT_FONT_DATA_end
 
     endif ; NAMALGO_TEXT

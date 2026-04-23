@@ -1,21 +1,30 @@
 ; ------------------------------------------------------------------------------
+; init.asm - standard init subroutines
 ;
+;
+; CHANGELOG
+; 0.1 First version
+;
+;
+; COPYRIGHT
 ; Copyright 2022 Nameless Algorithm
 ; See https://namelessalgorithm.com/ for more information.
+;
 ;
 ; LICENSE
 ; You may use this source code for any purpose. If you do so, please attribute
 ; 'Nameless Algorithm' in your source, or mention us in your game/demo credits.
 ; Thank you.
 ;
-; ------------------------------------------------------------------------------
-
-
-; ------------------------------------------------------------------------------
+;
 ; USAGE
-; ------------------------------------------------------------------------------
 ;
 ;    include 'init.asm'
+;
+; ; init config
+; INIT_VRAM_PLANE_A             = $C000  ; multiple of $2000
+; INIT_VRAM_PLANE_B             = $E000  ; multiple of $2000
+; INIT_VRAM_WINDOW              = $B000  ; multiple of $800
 ;
 ;    jsr     init_all    ; default system initialization
 ;
@@ -26,6 +35,7 @@
 ;    move.l  #my_vdp_regs,a0 ; Load address of register table into a0
 ;    jsr     init_vdp
 ;
+; ------------------------------------------------------------------------------
 
 
 
@@ -72,11 +82,11 @@ Z80
 .wait
     btst    #$0,$00A11101    ; Check if we have access to the Z80 bus yet
     bne     .wait            ; If we don't yet have control,branch back up to Wait
-    move.l  #$00A00000,a1    ; Copy Z80 RAM address to a1
-    move.l  #$00C30000,(a1)  ; Copy data,and increment the source/dest addresses
- 
-    move.w  #$0000,$00A11200 ; Release reset state
-    move.w  #$0000,$00A11100 ; Release control of bus
+;    move.l  #$00A00000,a1    ; Copy Z80 RAM address to a1
+;    move.l  #$00C30000,(a1)  ; Copy data,and increment the source/dest addresses
+; 
+;    move.w  #$0000,$00A11200 ; Release reset state
+;    move.w  #$0000,$00A11100 ; Release control of bus
 
 ; Initialize PSG to silence
     ;move.l  #$9fbfdfff,$00C00011  ; silence
@@ -119,11 +129,11 @@ reg00:  dc.b %00000101  ; MD colors on, display on, hblank off
 reg01:  dc.b %01000100  ; Display on, vblank off, DMA off, NTSC, Genesis mode
 
 ; VRAM layout
-reg02:  dc.b $38        ; Pattern table for Scroll Plane A at VRAM $E000
-reg03:  dc.b $00        ; Pattern table for Window Plane   at VRAM $0000
-reg04:  dc.b $07        ; Pattern table for Scroll Plane B at VRAM $E000
-reg05:  dc.b $78        ; Sprite table at VRAM $F000 (bits 0-6 = bits 9-15)
-reg06:  dc.b $00        ; Sprite table 128KB VRAM (ignore)
+reg02:  dc.b (INIT_VRAM_PLANE_A>>13)<<3  ; Pattern table for Scroll Plane A
+reg03:  dc.b (INIT_VRAM_WINDOW>>11)<<1   ; Pattern table for Window Plane
+reg04:  dc.b (INIT_VRAM_PLANE_B>>13)     ; Pattern table for Scroll Plane B
+reg05:  dc.b $78            ; Sprite table at VRAM $F000 (bits 0-6 = bits 9-15)
+reg06:  dc.b $00            ; Sprite table 128KB VRAM (ignore)
 
 ; BG color
 reg07:  dc.b $00        ; Background colour - bits 0-3 = colour
@@ -136,13 +146,14 @@ reg09:  dc.b $00        ; SMS VScroll reg
 ; General
 reg0A:  dc.b $00        ; hblank counter (# scanlines between hblank)
 
-reg0B:  dc.b %0000000   ; Ext. interrupts off, HScroll fullscreen
-reg0C:  dc.b %0000000   ; H40 (320px) mode, no external pixel bus, disable 
+reg0B:  dc.b %00000000  ; Ext. interrupts off, HScroll fullscreen
+reg0C:  dc.b %10000001  ; H40 (320px) mode, no external pixel bus, disable 
                         ; shadow/highlight mode, no interlace
 reg0D:  dc.b $3F        ; Horiz. scroll table at VRAM $FC00 (bits 0-5)
 reg0E:  dc.b $00        ; Unused
 reg0F:  dc.b $02        ; Autoincrement 2 bytes
-reg10:  dc.b $00        ; Vert. scroll 32, Horiz. scroll 32
+reg10:  dc.b $01        ; Vertical size y, horizontal size x
+                        ; x/y = (0:32 cells, 1:64 cells, 3:128 cells)
 
 ; Window
 reg11: dc.b $00         ; Window Plane X pos 0 left

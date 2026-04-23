@@ -107,14 +107,23 @@ rom_header:
 ; $4000 plane B playfield
 ; $6000
 ; $8000 font data
-vram_playfield_a = $2000
-vram_playfield_b = $4000
+
+; init.asm config
+INIT_VRAM_PLANE_A = $2000
+INIT_VRAM_PLANE_B = $4000
+INIT_VRAM_WINDOW = $6000
+VDP_VRAM_SPRITES = $6000
 
 ; text.asm config
-TEXT_VRAM_ADDR_PRINT = vram_playfield_a ; Address of plane to print char indices to
+TEXT_VRAM_ADDR_PRINT = INIT_VRAM_PLANE_A ; Address of plane to print char indices to
 TEXT_VRAM_ADDR_FONT  = $8000 ; Where in VRAM is font data loaded?
 
-text
+
+    incdir  '../include'
+    include 'vdpmacros.asm'
+
+
+my_text
     dc.b 'HELLO WORLD',0
 
 
@@ -126,6 +135,8 @@ EntryPoint:               ; Entry point address set in ROM header
 
     ; clear_vram_all()
     jsr     clear_vram_all
+
+    M_VDP_SETREG VDP_MODE_4,%00000000 ; H32 mode
 
     ; load_palette( palette_data (a0.l), palette_idx (D0.w) [0-3] )
     lea     palette,a0
@@ -152,7 +163,7 @@ EntryPoint:               ; Entry point address set in ROM header
     move.w  #0,d2
 print_loop
     ; print_at_col( x (D1), y (D2), str (A0), strlen (D0), palette (D5.b) [0-3] )
-    lea    text,a0
+    lea    my_text,a0
     move.w  #11,d0
     move.b  d3,d5 ; d5 = d3 % 2
     and.b   #1,d5

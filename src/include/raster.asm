@@ -1,19 +1,23 @@
 ; ------------------------------------------------------------------------------
+; raster.asm - frame buffer implementation
 ;
-; Copyright 2022 Nameless Algorithm
+;
+; CHANGELOG
+; 0.1 First version
+;
+;
+; COPYRIGHT
+; Copyright 2023 Nameless Algorithm
 ; See https://namelessalgorithm.com/ for more information.
+;
 ;
 ; LICENSE
 ; You may use this source code for any purpose. If you do so, please attribute
 ; 'Nameless Algorithm' in your source, or mention us in your game/demo credits.
 ; Thank you.
 ;
-; ------------------------------------------------------------------------------
-
-
-; ------------------------------------------------------------------------------
+;
 ; USAGE
-; ------------------------------------------------------------------------------
 ;
 ;    include 'raster.asm'
 ;
@@ -31,14 +35,12 @@
 ;    move.w  #vram_framebuf,d0  ; VRAM write to framebuffer VRAM address
 ;    lea     $E00000,a0         ; Framebuf RAM ptr
 ;    jsr     copy_framebuf      ; copy RAM framebuffer to VRAM
-
-
-
-; ------------------------------------------------------------------------------
+;
+;
 ; NOTES
-; ------------------------------------------------------------------------------
 ; The Genesis uses 11-bit char indices
 ; This means we can use char indices in [0;2047] [$0;$7ff]
+; ------------------------------------------------------------------------------
 
 
 

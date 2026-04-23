@@ -2,10 +2,12 @@
 Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorithm.com](https://namelessalgorithm.com/genesis/).
 
 # Prerequisites
-1. Download:
+1. Download these binaries:
 
-   [vasmm68k_mot_Win64](http://sun.hasenbraten.de/vasm/bin/rel/vasmm68k_mot_Win64.zip) and
-   [vasmz80_std_Win64](http://sun.hasenbraten.de/vasm/bin/rel/vasmz80_std_Win64.zip)
+     vasmm68k_mot_Win64.zip
+     vasmz80_std_Win64.zip
+
+   from [sun.hasenbraten.de](http://sun.hasenbraten.de/vasm/index.php?view=binrel)
 
    Extract and put `vasmm68k_mot.exe` and `vasmz80_std.exe` in [bin/](bin/).
 
@@ -41,6 +43,13 @@ Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorith
   <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/framebuf.png" width="400px" >
   
   [Source code](src/framebuf/demo.asm) | [Download ROM](roms/namalgo-framebuf.gen?raw=true)
+
+- **Framebuffer**: Mandrol renderer.
+  [Article: 'SEGA Genesis: Mandelbrot'](https://namelessalgorithm.com/genesis/blog/mandelbrot/)
+ 
+  <img src="https://raw.githubusercontent.com/namalgo/genesis/main/screenshots/mandelbrot.png" width="400px" >
+  
+  [Source code](src/mandelbrot/demo.asm) | [Download ROM](roms/namalgo-mandelbrot.gen?raw=true)
 
 # Copyright and License
 All source code in this repository has the following copyright:
