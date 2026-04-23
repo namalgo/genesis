@@ -2,7 +2,7 @@
 Sega Genesis/MegaDrive assembly code examples from articles on [namelessalgorithm.com](https://namelessalgorithm.com/genesis/).
 
 # Prerequisites
-1. Download these binaries:
+Download these binaries:
 
 ```
      vasmm68k_mot_Win64.zip
